@@ -3,10 +3,8 @@ package com.rugbyaholic.techshare.auth;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.rugbyaholic.techshare.common.ImageFile;
@@ -14,6 +12,8 @@ import com.rugbyaholic.techshare.common.ImageFile;
 public class AuthenticatedUser implements UserDetails {
 
 	private static final long serialVersionUID = -3047963961151549314L;
+
+	private static final Collection<? extends GrantedAuthority> authorities = null;
 	
 	private long id;
 	
@@ -39,11 +39,20 @@ public class AuthenticatedUser implements UserDetails {
 	
 	private ImageFile profileImage;
 
-	@Override
+	
+	
+	/**
+	 * @Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return roles.stream()
 					.map(SimpleGrantedAuthority::new)
 					.collect(Collectors.toList());
+	}
+	 */
+	
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return authorities;
 	}
 
 	@Override

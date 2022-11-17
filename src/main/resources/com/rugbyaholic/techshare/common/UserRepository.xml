@@ -20,84 +20,11 @@
 	]]>
 	</select>
 	
-	<select id="identifyUser" parameterType="java.lang.String" resultMap="userDetails">
-	<![CDATA[
-		SELECT 	USERS.ID,
-				USERS.EMAIL,
-				USERS.AVF,
-				USERS.NAME,
-				USERS.PASSWORD,
-				USERS.LOCKED,
-				USERS.EXPIRED,
-				USER_ROLES.ROLE,
-				CODEMST.CODE_NM,
-				USERS.EMP_NO,
-        		USERS.PROFILE_IMG,
-        		DP.DEPT_NM,
-        		POS.POS_NM
-		FROM  	USERS
-		INNER JOIN
-				(
-		  			SELECT  USERS.ID,
-		          		    @RN := @RN + 1 AS RN
-		  			FROM    USERS,
-		         			(SELECT @RN := 0) RC
-		   			WHERE 	USERS.EMAIL  = #{email}
-		   			AND    	USERS.AVF   <= CURDATE()
-		   			ORDER BY
-		          			AVF DESC
-				) RC
-		ON     USERS.ID          = RC.ID
-		INNER JOIN USER_ROLES
-		ON     USER_ROLES.USER_ID = USERS.ID
-		INNER JOIN CODEMST
-		ON     CODEMST.CODE_ID   = 1
-		AND    CODEMST.CODE      = USER_ROLES.ROLE
-		INNER JOIN DEPTS DP
-		ON      DP.DEPT_CD        = USERS.DEPT_CD
-		AND     NOT EXISTS
-		        (
-		            SELECT  1
-		            FROM    DEPTS
-		            WHERE   DEPTS.DEPT_CD    =  DP.DEPT_CD
-		            AND     DEPTS.AVF       <=  CURDATE()
-		            AND     DEPTS.AVF        >  DP.AVF
-		        )
-		INNER JOIN POSITIONS POS
-		ON      POS.POS_CD        = USERS.POS_CD
-		AND     NOT EXISTS
-		        (
-		            SELECT  1
-		            FROM    POSITIONS
-		            WHERE   POSITIONS.POS_CD     =  POS.POS_CD
-		            AND     POSITIONS.AVF       <=  CURDATE()
-		            AND     POSITIONS.AVF        >  POS.AVF
-		        )
-		WHERE  USERS.EMAIL       = #{email}
-		AND    RC.RN             = 1
-	]]>	
-	</select>
+	<select id="identifyUser" resultType="com.rugbyaholic.techshare.auth.AuthenticatedUser">
 	
-	<resultMap type="com.rugbyaholic.techshare.auth.AuthenticatedUser" id="userDetails">
-		<result property="id" column="ID" />
-		<result property="email" column="EMAIL" />
-		<result property="avf" column="AVF" />
-		<result property="username" column="NAME" />
-		<result property="password" column="PASSWORD" />
-		<result property="locked" column="LOCKED" />
-		<result property="expired" column="EXPIRED" />
-		<!-- AS 2020.02.04 VOL007 -->
-		<result property="empNo" column="EMP_NO" />
-		<result property="deptName" column="DEPT_NM" />
-		<result property="posName" column="POS_NM" />
-		<association property="profileImage" javaType="com.rugbyaholic.techshare.common.ImageFile">
-			<result property="fileName" column="PROFILE_IMG" />
-		</association>
-		<!-- AE 2020.02.04 VOL007 -->
-		<collection property="roles" ofType="java.lang.String">
-			<result column="CODE_NM" />
-		</collection>
-	</resultMap>
+		select * from users where email = #{email}
+	
+	</select>
 	
 	<update id="changeProfile" parameterType="com.rugbyaholic.techshare.auth.AuthenticatedUser">
 	<![CDATA[
