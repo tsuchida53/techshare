@@ -8,36 +8,27 @@
 	<select id="identifyUser" parameterType="java.lang.String" resultMap="userDetails">
 	<![CDATA[
 		SELECT  
-				USERS.ID,
-				USERS.EMAIL,
-				USERS.AVF,
-				USERS.NAME,
-				USERS.PASSWORD,
-				USERS.LOCKED,
-				USERS.EXPIRED,
-				USER_ROLES.ROLE,
-				CODEMST.CODE_NM
-		FROM  	USERS
-		INNER JOIN
-					(
-		  				SELECT ID,
-							(select count(*)+1
-							from users b
-							where b.ID < a.ID
-					) RN
-				from  users a
-				WHERE 	a.EMAIL  = #{email}
-				AND    	a.AVF   <= CURDATE()
-				ORDER BY AVF DESC
-				) RC
-		ON     USERS.ID          = RC.ID
-		INNER JOIN USER_ROLES
-		ON     USER_ROLES.USER_ID = USERS.ID
-		INNER JOIN CODEMST
-		ON     CODEMST.CODE_ID   = 1
-		AND    CODEMST.CODE      = USER_ROLES.ROLE
-		WHERE  USERS.EMAIL       = #{email}
-		AND    RC.RN            = 1
+				a.ID,
+				a.EMAIL,
+				a.AVF,
+				a.NAME,
+				a.PASSWORD,
+				a.LOCKED,
+				a.EXPIRED,
+				b.ROLE,
+				c.CODE_NM
+FROM  	USERS a
+
+INNER JOIN	
+	USER_ROLES b
+ON     b.USER_ID = a.ID
+
+INNER JOIN	 
+	CODEMST c
+ON     c.CODE_ID   = 1
+AND    c.CODE	=	1
+
+where	 a.EMAIL       = #{email} 
 	]]>	
 	</select>
 	
