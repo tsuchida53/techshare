@@ -24,7 +24,7 @@ public class ProfileService {
 	
 	private AuthenticatedUser user;
 	
-	public static final String PROFILE_IMAGE_DEST = "D:\\img\\00_profile\\";
+	public static final String PROFILE_IMAGE_DEST = "C:\\img\\00_profile\\";
 	
 	@Transactional(rollbackFor = Throwable.class)
 	public void editProfile(ProfileEditForm form) throws Exception {

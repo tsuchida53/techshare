@@ -31,7 +31,13 @@
 				a.LOCKED,
 				a.EXPIRED,
 				b.ROLE,
-				c.CODE_NM
+				c.CODE_NM,
+
+				a.EMP_NO,
+        			a.PROFILE_IMG,
+        			d.DEPT_NM,
+        			e.POS_NM
+
 		FROM  	USERS a
 		INNER JOIN	
 			USER_ROLES b
@@ -40,7 +46,17 @@
 			CODEMST c
 		ON     c.CODE_ID   = 1
 		AND    c.CODE	=	1
-		where	 a.EMAIL       = #{email} 
+
+		INNER JOIN	
+			DEPTS d
+		ON      d.DEPT_CD	=	a.DEPT_CD
+
+		INNER JOIN 
+			POSITIONS e
+		ON      e.POS_CD	=	a.POS_CD
+					
+		where	
+			a.EMAIL       =		#{email}  
 	]]>	
 	</select>
 	
@@ -52,6 +68,14 @@
 		<result property="password" column="PASSWORD" />
 		<result property="locked" column="LOCKED" />
 		<result property="expired" column="EXPIRED" />
+		<!-- AS 2020.02.04 VOL007 -->
+		<result property="empNo" column="EMP_NO" />
+		<result property="deptName" column="DEPT_NM" />
+		<result property="posName" column="POS_NM" />
+		<association property="profileImage" javaType="com.rugbyaholic.techshare.common.ImageFile">
+			<result property="fileName" column="PROFILE_IMG" />
+		</association>
+		<!-- AE 2020.02.04 VOL007 -->
 		<collection property="roles" ofType="java.lang.String">
 			<result column="CODE_NM" />
 		</collection>
