@@ -20,11 +20,42 @@
 	]]>
 	</select>
 	
-	<select id="identifyUser" resultType="com.rugbyaholic.techshare.auth.AuthenticatedUser">
-	
-		select * from users where email = #{email}
-	
+	<select id="identifyUser" parameterType="java.lang.String" resultMap="userDetails">
+	<![CDATA[
+		SELECT  
+				a.ID,
+				a.EMAIL,
+				a.AVF,
+				a.NAME,
+				a.PASSWORD,
+				a.LOCKED,
+				a.EXPIRED,
+				b.ROLE,
+				c.CODE_NM
+		FROM  	USERS a
+		INNER JOIN	
+			USER_ROLES b
+		ON     b.USER_ID = a.ID
+		INNER JOIN	 
+			CODEMST c
+		ON     c.CODE_ID   = 1
+		AND    c.CODE	=	1
+		where	 a.EMAIL       = #{email} 
+	]]>	
 	</select>
+	
+	<resultMap type="com.rugbyaholic.techshare.auth.AuthenticatedUser" id="userDetails">
+		<result property="id" column="ID" />
+		<result property="email" column="EMAIL" />
+		<result property="avf" column="AVF" />
+		<result property="username" column="NAME" />
+		<result property="password" column="PASSWORD" />
+		<result property="locked" column="LOCKED" />
+		<result property="expired" column="EXPIRED" />
+		<collection property="roles" ofType="java.lang.String">
+			<result column="CODE_NM" />
+		</collection>
+	</resultMap>
 	
 	<update id="changeProfile" parameterType="com.rugbyaholic.techshare.auth.AuthenticatedUser">
 	<![CDATA[
