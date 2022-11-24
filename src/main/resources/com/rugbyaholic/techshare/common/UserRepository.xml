@@ -34,9 +34,9 @@
 				c.CODE_NM,
 
 				a.EMP_NO,
-        			a.PROFILE_IMG,
-        			d.DEPT_NM,
-        			e.POS_NM
+        		a.PROFILE_IMG,
+        		d.DEPT_NM,
+        		e.POS_NM
 
 		FROM  	USERS a
 		INNER JOIN	
@@ -102,5 +102,7 @@
 		WHERE   USER_ID      =  #{userId}
 	]]>
 	</update>
+	
+	<!-- !!!  insert into personal_info (user_id, bldg) values (###, "富士見");!!! -->
 	
 </mapper>
