@@ -81,61 +81,37 @@
 	
 	<select id="identifyUser" parameterType="java.lang.String" resultMap="userDetails">
 	<![CDATA[
-		SELECT 	USERS.ID,
-				USERS.EMAIL,
-				USERS.AVF,
-				USERS.NAME,
-				USERS.PASSWORD,
-				USERS.LOCKED,
-				USERS.EXPIRED,
-				USER_ROLES.ROLE,
-				CODEMST.CODE_NM,
-				USERS.EMP_NO,
-        		USERS.PROFILE_IMG,
-        		USERS.DEPT_CD,
-        		USERS.POS_CD,
-        		DP.DEPT_NM,
-        		POS.POS_NM
-		FROM  	USERS
-		INNER JOIN
-				(
-		  			SELECT  USERS.ID,
-		          		    @RN := @RN + 1 AS RN
-		  			FROM    USERS,
-		         			(SELECT @RN := 0) RC
-		   			WHERE 	USERS.EMAIL  = #{email}
-		   			AND    	USERS.AVF   <= CURDATE()
-		   			ORDER BY
-		          			AVF DESC
-				) RC
-		ON     USERS.ID          = RC.ID
-		INNER JOIN USER_ROLES
-		ON     USER_ROLES.USER_ID = USERS.ID
-		INNER JOIN CODEMST
-		ON     CODEMST.CODE_ID   = 1
-		AND    CODEMST.CODE      = USER_ROLES.ROLE
-		INNER JOIN DEPTS DP
-		ON      DP.DEPT_CD        = USERS.DEPT_CD
-		AND     NOT EXISTS
-		        (
-		            SELECT  1
-		            FROM    DEPTS
-		            WHERE   DEPTS.DEPT_CD    =  DP.DEPT_CD
-		            AND     DEPTS.AVF       <=  CURDATE()
-		            AND     DEPTS.AVF        >  DP.AVF
-		        )
-		INNER JOIN POSITIONS POS
-		ON      POS.POS_CD        = USERS.POS_CD
-		AND     NOT EXISTS
-		        (
-		            SELECT  1
-		            FROM    POSITIONS
-		            WHERE   POSITIONS.POS_CD     =  POS.POS_CD
-		            AND     POSITIONS.AVF       <=  CURDATE()
-		            AND     POSITIONS.AVF        >  POS.AVF
-		        )
-		WHERE  USERS.EMAIL       = #{email}
-		AND    RC.RN             = 1
+		SELECT  
+				a.ID,
+				a.EMAIL,
+				a.AVF,
+				a.NAME,
+				a.PASSWORD,
+				a.LOCKED,
+				a.EXPIRED,
+				b.ROLE,
+				c.CODE_NM,
+				a.EMP_NO,
+        		a.PROFILE_IMG,
+        		d.DEPT_NM,
+        		e.POS_NM
+		FROM  	USERS a
+		INNER JOIN	
+			USER_ROLES b
+		ON     b.USER_ID = a.ID
+		INNER JOIN	 
+			CODEMST c
+		ON     c.CODE_ID   = 1
+		AND    c.CODE	=	1
+		INNER JOIN	
+			DEPTS d
+		ON      d.DEPT_CD	=	a.DEPT_CD
+		INNER JOIN 
+			POSITIONS e
+		ON      e.POS_CD	=	a.POS_CD
+					
+		where	
+			a.EMAIL       =		#{email}  
 	]]>	
 	</select>
 	
