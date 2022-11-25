@@ -23,7 +23,7 @@ public class UserManagementController {
 	
 	private UserSearchForm form;
 	
-	public static final int PAGE_LIMIT = 2;
+	public static final int PAGE_LIMIT = 1;
 	
 	@GetMapping("/manage/users/UserList.html")
 	public String onUserListRequested(Model model) {
