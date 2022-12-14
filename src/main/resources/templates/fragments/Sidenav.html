@@ -20,6 +20,9 @@
 			<!-- ユーザ情報 -->
 			<div class="container-fluid bg-secondary text-light py-3" th:object="${authenticatedUser}">
 				<span th:text="*{username}">Username</span>
+				
+				<span th:text="*{roles}">roles</span>
+				
 				<!-- 画像 -->
 				<img class="profile-photo my-2" src="../static/img/anonymous.png" alt="Profile"
 					th:src="@{/img/anonymous.png}" />
