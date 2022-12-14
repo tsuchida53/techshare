@@ -19,15 +19,14 @@
 				c.CODE_NM
 FROM  	USERS a
 
-INNER JOIN	
+inner JOIN	
 	USER_ROLES b
 ON     b.USER_ID = a.ID
 
-INNER JOIN	 
+left JOIN	 
 	CODEMST c
 ON     c.CODE_ID   = 1
-AND    c.CODE	=	1
-
+AND    b.role   =   c.CODE	
 where	 a.EMAIL       = #{email} 
 	]]>	
 	</select>
