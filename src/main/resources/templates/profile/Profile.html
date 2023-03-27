@@ -15,8 +15,10 @@
 	<div th:replace="fragments/Sidenav :: sidenav"></div>
 	<div class="main">
 		<div th:replace="fragments/Header :: header"></div>
+		
 		<form th:action="@{/profile/ProfileEdit.do}" autocomplete="off" 
 			method="post" enctype="multipart/form-data" th:object="${profileEditForm}">
+			
 			<div class="container-fluid p-4 position-relative">
 				<div class="row g-4">
 					<div class="col col-12">
@@ -73,17 +75,22 @@
 						<span class="fw-bold">パスワード</span>
 					</div>
 					<div class="col col-12 col-md-4">
+					
 						<input  type="password" class="form-control form-control-sm" 
 								placeholder="変更後のパスワード" th:field="*{password}"
 								th:classappend="${#fields.hasErrors('password') || #fields.hasErrors('passwordConfirmed') 
 												? 'is-invalid bg-light' : ''}" />
 					</div>
+					
 					<div class="col col-12 col-md-4">
 						<span th:if="${#fields.hasErrors('password')}" 
 								class="text-danger" th:errors="*{password}"></span>
 					</div>
+					
 					<div class="col col-12 col-md-3"></div>
+					
 					<div class="col col-12 col-md-4">
+					
 						<input type="password" class="form-control form-control-sm" 
 								placeholder="再入力" th:field="*{passwordConfirm}"
 								th:classappend="${#fields.hasErrors('passwordConfirm') || 

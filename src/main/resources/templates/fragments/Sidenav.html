@@ -20,6 +20,7 @@
 			<!-- ユーザ情報 -->
 			<div class="container-fluid bg-secondary text-light py-3">
 				<span th:text="${#authentication.principal.username}">Username</span>
+				<span th:text="${#authentication.principal.roles}">Username</span>
 				<!-- 画像 -->
 				<img class="profile-photo my-2" alt="Profile"
 					th:src="${#authentication.principal.profileImage.encodedString()}" />
@@ -41,6 +42,14 @@
 				<li class="nav-item border-bottom">
 					<a th:href="@{/manage/users/UserList.html}" class="nav-link text-dark py-3">ユーザー管理</a>
 				</li>
+				<li sec:authorize="hasRole('ADMIN')" class="nav-item border-bottom">
+					<a href="/adminPage" class="nav-link text-dark py-3">admin</a>
+				</li>
+				<li sec:authorize="hasRole('USER')" class="nav-item border-bottom">
+					<a href="/userPage" class="nav-link text-dark py-3">user</a>
+				</li>
+				<li sec:authorize="hasRole('MANAGER')" class="nav-item border-bottom">
+					<a href="#" class="nav-link text-dark py-3">MANAGER</a>
 			</ul>
 		</div>
 	</div>

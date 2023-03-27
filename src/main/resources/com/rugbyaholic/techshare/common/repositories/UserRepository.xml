@@ -102,7 +102,7 @@
 		INNER JOIN	 
 			CODEMST c
 		ON     c.CODE_ID   = 1
-		AND    c.CODE	=	1
+		AND    c.CODE	=	b.role
 		INNER JOIN	
 			DEPTS d
 		ON      d.DEPT_CD	=	a.DEPT_CD

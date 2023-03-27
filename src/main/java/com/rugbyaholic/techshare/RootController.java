@@ -1,6 +1,7 @@
 package com.rugbyaholic.techshare;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
@@ -50,4 +51,18 @@ public class RootController {
 		
 		return "Login.html";
 	}
+	
+	
+	
+	@GetMapping("/adminPage")
+    @PreAuthorize("hasRole('ROLE_ADMIN')") // ROLE_ADMINのユーザのみアクセスを許可
+    public String adminPage() {
+        return "adminPage";
+    }
+    
+    @GetMapping("/userPage")
+    @PreAuthorize("hasRole('ROLE_USER')") // ROLE_ADMINのユーザのみアクセスを許可
+    public String userPage() {
+        return "userPage";
+    }
 }

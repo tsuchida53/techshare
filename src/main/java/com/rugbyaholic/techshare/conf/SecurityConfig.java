@@ -15,6 +15,8 @@ import com.rugbyaholic.techshare.auth.DatabaseUserDetailsService;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
+	public static final String ROLE_ADMIN = "ADMIN";
+	
 	@Autowired
 	private DatabaseUserDetailsService userDetailsService;
 	
@@ -28,6 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// アクセス制御
 		http.authorizeRequests()
 			.antMatchers("/css/**", "/js/**", "/img/**", "/UserRegistration.do").permitAll()
+			.antMatchers("/adminPage").hasRole(ROLE_ADMIN)
 			.anyRequest().authenticated()
 		// ログイン
 		.and()
